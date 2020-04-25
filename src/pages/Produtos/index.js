@@ -26,7 +26,7 @@ const Produtos = (props) =>{
     const query = useQueryString();
 
     const [pIdProduto, setpIdProduto] = useState(query.get('IdProduto') !== null ? query.get('IdProduto') : '');
-    const [IdRepresentada, setIdRepresentada] = useState(1);
+    const [IdRepresentada, setIdRepresentada] = useState(0);
     const [addInfoProduto, setAddInfoProduto] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [AddInfoProdutoTotal, setAddInfoProdutoTotal] = useState(0);
