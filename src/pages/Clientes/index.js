@@ -23,7 +23,9 @@ const Clientes = (props) => {
                 DsSearch,
                 jwt
             )
-            setCliente(json.Pessoa);
+            if (!json.error){
+                setCliente(json.Pessoa);
+            }
             setLoading(false);
         },1000);
     }   
