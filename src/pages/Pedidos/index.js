@@ -43,8 +43,10 @@ const Pedidos = (props) => {
                 per_page,
                 excludes,
                 jwt)
-            setPedidos(json.PedidoDeVenda);
-            setVlTotalPedidos(parseFloat(json.VlPedido).toFixed(2));
+            if (json.logged){
+                setPedidos(json.PedidoDeVenda);
+                setVlTotalPedidos(parseFloat(json.VlPedido).toFixed(2));
+            }   
             setLoading(false);
         },1);
     }   

@@ -7,11 +7,11 @@ const URL = 'http://138.99.15.234:20003';
 const BASEAPI = URL+'/backEndSalato/';
 export const BASEAPIIMAGE = URL+'/images/';
 
-/*const apiFetchFile = async (endpoint, body) => {
-    if(!body.token) {
-        let token = Cookies.get('token');
-        if (token) {
-            body.append('token', token);
+const apiFetchFile = async (endpoint, body) => {
+    if(!body.jwt) {
+        let jwt = Cookies.get('token');
+        if(jwt) {
+            body.jwt = jwt;
         }
     }
 
@@ -35,12 +35,12 @@ export const BASEAPIIMAGE = URL+'/images/';
     }
 
     return json;
-}*/
+}
 const apiFetchPost = async (endpoint, body) => {
-    if(!body.token) {
-        let token = Cookies.get('token');
-        if(token) {
-            body.token = token;
+    if(!body.jwt) {
+        let jwt = Cookies.get('token');
+        if(jwt) {
+            body.jwt = jwt;
         }
     }
 
@@ -50,7 +50,6 @@ const apiFetchPost = async (endpoint, body) => {
             body.hash = hash;
         }
     }
-
     const res = await fetch(BASEAPI+endpoint, {
         method:'POST',
         headers:{
@@ -59,8 +58,8 @@ const apiFetchPost = async (endpoint, body) => {
         },
         body:JSON.stringify(body)
     });
-    const json = await res.json();
 
+    const json = await res.json();
     if(json.error) {
         doLogout();
         window.location.href = '/Login';
@@ -70,10 +69,10 @@ const apiFetchPost = async (endpoint, body) => {
     return json;
 }
 const apiFetchGet = async (endpoint, body = []) => {
-    if(!body.token) {
-        let token = Cookies.get('token');
-        if(token) {
-            body.token = token;
+    if(!body.jwt) {
+        let jwt = Cookies.get('token');
+        if(jwt) {
+            body.jwt = jwt;
         }
     }
 
@@ -86,7 +85,6 @@ const apiFetchGet = async (endpoint, body = []) => {
 
     const res = await fetch(`${BASEAPI+endpoint}?${qs.stringify(body)}`);
     const json = await res.json();
-    
     if(json.error) {
         doLogout();
         window.location.href =  '/Login';
@@ -103,7 +101,6 @@ const apiFetchGetEnd = async (endpoint, body = []) => {
     return json;
 }
 const apiFetchDelete = async (endpoint, body = []) => {
-
     if(!body.jwt) {
         let jwt = Cookies.get('token');
         if(jwt) {
@@ -117,6 +114,7 @@ const apiFetchDelete = async (endpoint, body = []) => {
             body.hash = hash;
         }
     }
+
     const res = await fetch(BASEAPI+endpoint, {
         method:'DELETE',
         headers:{
@@ -125,8 +123,8 @@ const apiFetchDelete = async (endpoint, body = []) => {
         },
         body:JSON.stringify(body)
     });
-    
     const json = await res.json();
+
     if(json.error) {
         doLogout();
         window.location.href =  '/Login';
@@ -171,7 +169,7 @@ const apiFetchPut = async (endpoint, body = []) => {
 const SalatoAPI = {
     login:async (email, pass) => {
         const json = await apiFetchPost(
-            '/user/getlogin', 
+            '/user/getloginRepresentante', 
             {email,pass}
         )
         return json;
@@ -179,7 +177,7 @@ const SalatoAPI = {
 
     newLogin:async (NmPessoa, DsLogin, pass) => {
         const json = await apiFetchPost(
-            '/user/new_recordClient', 
+            '/user/new_recordRepresentante', 
             {NmPessoa, DsLogin, pass}
         )
         return json;
@@ -350,8 +348,133 @@ const SalatoAPI = {
             jwt}
         )
         return json;
-    }
+    },
 
+    addProduto:async(NmProduto,IdGrupoProduto,QtEstoque,IdUnidadeVenda,TpProduto,StAtivo,LinckImage,DsTitulo,DsProdutoSite,VlPreco)=>{
+        const json = await apiFetchPost(
+            '/produto/handleProdutos',
+            {
+                NmProduto,
+                IdGrupoProduto,
+                QtEstoque,
+                IdUnidadeVenda,
+                TpProduto,
+                StAtivo,
+                LinckImage,
+                DsTitulo,
+                DsProdutoSite,
+                VlPreco
+            }
+        )
+        return json;
+    },
+
+    updateProduto:async(IdProduto, NmProduto,IdGrupoProduto,QtEstoque,IdUnidadeVenda,TpProduto,StAtivo,LinckImage,DsTitulo,DsProdutoSite,VlPreco)=>{
+        const json = await apiFetchPut(
+            '/produto/handleProdutos',
+            {   
+                IdProduto,
+                NmProduto,
+                IdGrupoProduto,
+                QtEstoque,
+                IdUnidadeVenda,
+                TpProduto,
+                StAtivo,
+                LinckImage,
+                DsTitulo,
+                DsProdutoSite,
+                VlPreco
+            }
+        )
+        return json;
+    },
+
+    deleteProduto:async(IdProduto)=>{
+        const json = await apiFetchDelete(
+            '/produto/handleProdutos',
+            {IdProduto}
+        )
+        return json;
+    },
+
+    getProduto:async(jwt, hash, NmProduto, IdPreco, per_pages, StPaginaInicial, offset, idGrupoProduto, IdProduto)=>{
+        const json = await apiFetchGet(
+            '/produto/handleProdutos',
+            {   
+                jwt,
+                hash,
+                NmProduto, 
+                IdPreco, 
+                per_pages, 
+                StPaginaInicial, 
+                offset, 
+                idGrupoProduto, 
+                IdProduto
+            }
+        )
+        return json;
+    },
+
+    addCliente:async(NmPessoa,CdCPF_CNPJ,DsPessoaContatoCobranca,DsEmailCobranca,DsTeleFoneCobranca,DsFaxCobranca,DtCadastro,StAtivo,VlLimiteCredito,StInadimplente,StVendaBloqueada)=>{
+        const json = await apiFetchPost(
+            '/cliente/handleCliente',
+            {
+                NmPessoa,
+                CdCPF_CNPJ,
+                DsPessoaContatoCobranca,
+                DsEmailCobranca,
+                DsTeleFoneCobranca,
+                DsFaxCobranca,
+                DtCadastro,
+                StAtivo,
+                VlLimiteCredito,
+                StInadimplente,
+                StVendaBloqueada,
+            }
+        )
+        return json;
+    },
+
+    updateCliente:async(IdPessoa, NmPessoa,CdCPF_CNPJ,DsPessoaContatoCobranca,DsEmailCobranca,DsTeleFoneCobranca,DsFaxCobranca,DtCadastro,StAtivo,VlLimiteCredito,StInadimplente,StVendaBloqueada)=>{
+        const json = await apiFetchPut(
+            '/cliente/handleCliente',
+            {
+                IdPessoa,
+                NmPessoa,
+                CdCPF_CNPJ,
+                DsPessoaContatoCobranca,
+                DsEmailCobranca,
+                DsTeleFoneCobranca,
+                DsFaxCobranca,
+                DtCadastro,
+                StAtivo,
+                VlLimiteCredito,
+                StInadimplente,
+                StVendaBloqueada,
+            }
+        )
+        return json;
+    },
+
+    deleteCliente:async(IdPessoa)=>{
+        const json = await apiFetchDelete(
+            '/cliente/handleCliente',
+            {
+                IdPessoa
+            }
+        )
+        return json;
+    },
+    
+    getCliente:async(NmPessoa)=>{
+        const json = await apiFetchGet(
+            '/cliente/handleCliente',
+            {
+                NmPessoa
+            }
+        )
+        return json;
+    }
 }
 
 export default () => SalatoAPI;
