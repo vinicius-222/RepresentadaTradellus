@@ -20,7 +20,7 @@ const Representadas = (props) =>{
 
             {props.listRepresentadasRedux.map((i,k)=>
                 <div key={k} className="AreaList">
-                    <div>{i.NmRepresentada}</div>
+                    <div>{i.NmPessoa}</div>
                     <div className="AreaList--button">
                         <div className="AreaList--btnRemove">Remover</div>
                         <div className="AreaList--btnActive">Ativo</div>

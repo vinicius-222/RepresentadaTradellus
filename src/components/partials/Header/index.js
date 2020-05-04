@@ -19,7 +19,8 @@ const Header = (props) => {
 
     const getRepresentadas = async () =>{
         const json = await api.getRepresentadas();
-        props.setListRepresentadaRedux(json.Itens);
+        console.log(json);
+        props.setListRepresentadaRedux(json.Representada);
     }
 
     const handleSetMenu = () =>{

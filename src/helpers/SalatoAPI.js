@@ -271,19 +271,11 @@ const SalatoAPI = {
     },
 
     getRepresentadas:async () => {
-        return new Promise((resolve, reject) => {
-            setTimeout(()=>{
-                let json = {Itens:[
-                    {IdRepresentada:1, active:false, NmRepresentada:'Fabrica de Utencilios Domesticos LTDA', img:'https://www.padariaxodo.com.br/images/kitfesta.png'},
-                    {IdRepresentada:2, active:true, NmRepresentada:'Distribuidora de Bebidas Sol ME', img:'https://www.vitrinerio.com.br/imagens/anuncios/280816032509/Buffalo_Grill_Porcao_Bolinho_Bacalhau.png'},
-                    {IdRepresentada:3, active:false, NmRepresentada:'Abatedouro Gomes Sa LTDA', img:'https://www.vitrinerio.com.br/imagens/anuncios/280816032509/Buffalo_Grill_Porcao_Bolinho_Bacalhau.png'},
-                    {IdRepresentada:4, active:false, NmRepresentada:'Ultilicasa Ultilidades do lar EIRELI', img:'https://pngimage.net/wp-content/uploads/2018/06/sobremesas-png-1.png'},
-                    {IdRepresentada:5, active:false, NmRepresentada:'Industria de Produtos Natubras LTDA', img:'https://www.bonabessa.com.br/lojavirtual/96-thickbox_default/torta-bombom.jpg'},
-                    {IdRepresentada:6, active:false, NmRepresentada:'AquaFutura Agua Mineral LTDA', img:'https://bagatela.pizza/bagatela/wp-content/uploads/bfi_thumb/refrigerantes-1-386me3f6bfb75v6j0i3ocq.png'}
-                ]};
-                resolve(json);
-            }, 1000)
-        })
+        const json = await apiFetchGet(
+            '/user/getRepresentada',
+            {}
+        )
+        return json;
     },
 
     getInfoCliente:async (NmPessoa, jwt) => {
@@ -294,9 +286,9 @@ const SalatoAPI = {
         return json;
     },
 
-    setPedidoDeVenda:async(IdPedidoDeVenda, CdChamada, IdPessoa, DtPedido, DtEntrega, IdEmpresa, VlPedido,TpPedido, IdCondicaoPagamento, VlTotalPedido, DsObservacao, jwt, itensPedido) => {
+    setPedidoDeVenda:async(IdPedidoDeVenda, CdChamada, IdPessoa, DtPedido, DtEntrega, IdEmpresa, VlPedido,TpPedido, IdCondicaoPagamento, VlTotalPedido, DsObservacao, jwt, itensPedido, IdRepresentada) => {
         const json = await apiFetchPost(
-            '/pedidos/setPedidos',
+            '/pedidovenda/setPedidos',
             {
                 "IdPedidoDeVenda":IdPedidoDeVenda,
                 "CdChamada":CdChamada,
@@ -310,6 +302,7 @@ const SalatoAPI = {
                 "VlTotalPedido":VlTotalPedido,
                 "itensPedido":itensPedido,
                 "DsObservacao":DsObservacao,
+                "IdRepresentada":IdRepresentada,
                 "jwt":jwt
             }
         )

@@ -360,6 +360,10 @@ const Produtos = (props) =>{
                 resolve(false);
             }
 
+            if (IdRepresentada == 0){
+                resolve(false);
+            }
+
             resolve(true);
         })
         return promise;
@@ -391,6 +395,7 @@ const Produtos = (props) =>{
                     "",
                     jwt,
                     Itens,
+                    IdRepresentada
                 )
                 if (!json.error){
                     getCarCompra();
@@ -533,8 +538,9 @@ const Produtos = (props) =>{
                                 onChange={e=>setNmProduto(e.target.value)}
                             />
                             <select type="text" value={IdRepresentada} onChange={e=>setIdRepresentada(e.target.value)}>
+                                <option></option>
                                 {props.listRepresentadasRedux.map((i,k)=>
-                                    <option className="AreaOption" value={i.IdRepresentada} key={k} placeholder="Selecione uma Representada">{i.NmRepresentada}</option>
+                                    <option className="AreaOption" value={i.IdPessoa} key={k} placeholder="Selecione uma Representada">{i.NmPessoa}</option>
                                 )}
                             </select>
                             <button>Pesquisar</button> 
