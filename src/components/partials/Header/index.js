@@ -50,6 +50,9 @@ const Header = (props) => {
                             <img src={require('../../../assets/images/canais_inative.png')}/>
                         }
                      </div>
+                     <div className="AreaNmPessoa">
+                         {"Representante: "+Cookies.get('NmPessoa')}
+                     </div>
                     <Link to="/Produtos" onClick={()=>props.setStCart(true)} className="AreaCarrinho">
                         <img src={require('../../../assets/images/Carrinho.png')} />
                         {props.qtCart > 0 &&

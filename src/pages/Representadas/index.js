@@ -22,7 +22,6 @@ const Representadas = (props) =>{
                 <div key={k} className="AreaList">
                     <div>{i.NmPessoa}</div>
                     <div className="AreaList--button">
-                        <div className="AreaList--btnRemove">Remover</div>
                         <div className="AreaList--btnActive">Ativo</div>
                     </div>
                 </div>

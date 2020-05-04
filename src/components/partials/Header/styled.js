@@ -19,6 +19,12 @@ export const HeaderArea = styled.div`
         .AreaDetail{
             display:flex;
 
+            .AreaNmPessoa{
+                margin-right:10px;
+                color:#999;
+                font-size:13px;
+            }
+
             .AreaMenu{
                 display:none;
             }
